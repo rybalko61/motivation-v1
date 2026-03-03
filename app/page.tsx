@@ -1,65 +1,104 @@
-import Image from "next/image";
+'use client'
+import React, { useState } from 'react'
+import QuoteModal from './components/QuoteModal'
+import { quotes } from '../utils/quotes'
 
-export default function Home() {
+export default function Page() {
+  const [isOpen, setIsOpen] = useState(false)
+  const [currentQuote, setCurrentQuote] = useState(quotes[0])
+
+  const openRandomQuote = () => {
+    const randomQuote = quotes[Math.floor(Math.random() * quotes.length)]
+    setCurrentQuote(randomQuote)
+    setIsOpen(true)
+  }
+
+  const today = new Date().toLocaleDateString('ru-RU', { 
+    day: '2-digit', 
+    month: '2-digit' 
+  })
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+    <div style={{
+      display: 'flex',
+      width: '390px',
+      height: '100vh',
+      padding: '176px 25px',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
+      gap: '69px',
+      background: 'linear-gradient(180deg, #131313 0%, #0D073A 100%)',
+      margin: '0 auto',
+      fontFamily: '"SF Pro", -apple-system, system-ui, sans-serif',
+      overflow: 'hidden'
+    }}>
+      
+      {/* 1. ФРАЗА ДНЯ */}
+      <div style={{
+        alignSelf: 'stretch',
+        textAlign: 'center',
+        fontSize: '70px',
+        fontWeight: 590,
+        lineHeight: '140%',
+        letterSpacing: '-0.7px',
+        opacity: 0.7,
+        background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.10) 0%, rgba(255, 255, 255, 0.80) 100%)',
+        backgroundClip: 'text',
+        WebkitBackgroundClip: 'text',
+        WebkitTextFillColor: 'transparent'
+      }}>
+        Фраза дня
+      </div>
+
+      {/* 2. ДАТА (-20px от фразы) */}
+      <div style={{
+        alignSelf: 'stretch',
+        textAlign: 'center',
+        fontSize: '120px',
+        fontWeight: 590,
+        lineHeight: '140%',
+        letterSpacing: '-1.2px',
+        opacity: 0.7,
+        background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.80) 0%, rgba(255, 255, 255, 0.10) 100%)',
+        backgroundClip: 'text',
+        WebkitBackgroundClip: 'text',
+        WebkitTextFillColor: 'transparent',
+        marginTop: '-20px' // ← -20px отступ
+      }}>
+        {today}
+      </div>
+
+      {/* 3. КРУГЛАЯ КНОПКА */}
+      <button
+        onClick={openRandomQuote}
+        style={{
+          display: 'flex',
+          width: '180px',
+          height: '180px',
+          padding: '40px',
+          justifyContent: 'center',
+          alignItems: 'center',
+          gap: '8px',
+          border: 'none',
+          borderRadius: '90px', // ← ИДЕАЛЬНО КРУГАЯ
+          background: '#186DFF',
+          boxShadow: '0 9px 30px 6px rgba(75, 140, 254, 0.30), 0 -6px 9px 0 rgba(255, 255, 255, 0.25) inset, 0 7px 7px 0 rgba(6, 73, 187, 0.50) inset, 0 16px 9px 0 rgba(255, 255, 255, 0.35) inset',
+          cursor: 'pointer',
+          fontSize: '20px',
+          fontWeight: 590,
+          color: 'white',
+          transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)'
+        }}
+      >
+        Открыть
+      </button>
+
+      <QuoteModal
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        quote={currentQuote}
+      />
     </div>
-  );
+  )
 }
