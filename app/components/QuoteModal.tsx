@@ -23,7 +23,7 @@ export default function QuoteModal({ isOpen, onClose, quote, onOpenNew }: QuoteM
 
   const handleShare = () => {
     const text = encodeURIComponent(`"${quote.text}" — ${quote.author}`)
-    const url = encodeURIComponent('https://t.me/motivation_daily')
+    const url = encodeURIComponent('https://t.me/motivation_of_day_bot')
     window.open(`https://t.me/share/url?url=${url}&text=${text}`, '_blank')
   }
 
